@@ -48,10 +48,12 @@ if (program.add) {
 //Fonctions de navigation----------------------------------
 
 function menuPrincipal() {
+  //Petite astuce (retrouvée au début de chaque fonction menu) pour supprimer la console
   var lines = process.stdout.getWindowSize()[1];
   for (var i = 0; i < lines; i++) {
     console.log('\r\n');
   }
+  //fin de l'astuce
   inquirer.prompt([{
     type: 'list',
     message: 'Bonjour, que voulez-vous faire ?',
@@ -171,6 +173,7 @@ function ajouterComic() {
     message: 'Entrez le title de votre comic, nous allons effectuer une recherche.\n La recherche ne prend en compte que le title anglophone. \n',
     name: 'titleStartsWith'
   }]).then((title) => {
+    //si absence d'input, recherche avec la lettre "A"
     if (title.titleStartsWith == '') {
       console.log('Vous n\'avez pas rentré de charactère, recherche avec la lettre \"A\" :')
       title.titleStartsWith = 'a'
@@ -247,9 +250,11 @@ function VoirComics() {
     console.log('\r\n');
   }
   let listeTitleComics = []
+    //Recupère la db trié par ordre alphabétique, permet de lister les comics par série dans l'ordre
   db.all("SELECT * FROM comics ORDER BY comicTitle ASC")
     .then((comics) => {
       return new Promise(function(resolve) {
+        //Met les titres dans une liste
         for (i = 0; i < comics.length; i++) {
           listeTitleComics.push(comics[i].comicTitle)
         }
@@ -257,6 +262,7 @@ function VoirComics() {
         resolve(listeTitleComics)
       })
     }).then((listeTitleComics) => {
+      //Liste les comics de la db
       inquirer.prompt([{
         type: 'list',
         message: 'Vos comics :',
@@ -279,15 +285,18 @@ function DetailsComic(title) {
     console.log('\r\n');
   }
   let listeTitleComics = []
+    //récupère la db
   db.all("SELECT * FROM comics").then((comics) => {
     return new Promise(function(resolve) {
       for (i = 0; i < comics.length; i++) {
         listeTitleComics.push(comics[i].comicTitle)
       }
+      //récupère toute la data de la db lié au comic choisi
       let index = listeTitleComics.indexOf(title)
       resolve(comics[index])
     })
   }).then((comic) => {
+    //Met en forme toute la data du comic
     console.log(comic.comicTitle)
     if (comic.series !== '') {
       console.log('Issu de la série : ' + comic.seriesTitle)
@@ -301,6 +310,7 @@ function DetailsComic(title) {
     if (comic.annotation !== '') {
       console.log('\nNote : \n' + comic.annotation + '\n')
     }
+    //Quoi faire avec ce comic
     inquirer.prompt([{
       type: 'list',
       message: 'Actions :',
