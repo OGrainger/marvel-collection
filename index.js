@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-gram = require('commander')
+const program = require('commander')
 const inquirer = require('inquirer')
 const db = require('sqlite')
 const http = require('http')
