@@ -1,6 +1,6 @@
 {
   "name": "marvel-collection",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Gérez votre propre bibliothèque de comics MARVEL synchronisé avec la base de données de MARVEL en ligne !",
   "main": "index.js",
   "scripts": {

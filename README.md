@@ -17,3 +17,10 @@ Ce programme permet de gérer votre propre collection de comics MARVEL en se syn
 
 ##Contributeurs
 * **Oscar Grainger** - *oscarvgrainger@gmail.com*
+
+##Bugs connus
+-Lors de l'ajout d'un comic, si le champ reste vide -> crash de l'app (contourné par faire une recherche de comics commençant par "A")
+
+-N'arrive pas à trouver la db lors des commandes -l, -e, et -i de commander
+
+-Globalement une mauvaise gestion en cas d'erreur (ex: requête URL qui ne donne rien) (renvoie l'erreur et quitte l'app au lieu de revenir dans un menu)

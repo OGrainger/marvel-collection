@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
-/*A corriger :
-commander avec sqlite
-*/
-const program = require('commander')
+gram = require('commander')
 const inquirer = require('inquirer')
 const db = require('sqlite')
 const http = require('http')
