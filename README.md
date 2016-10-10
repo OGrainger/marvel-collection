@@ -9,5 +9,11 @@ Ce programme permet de gérer votre propre collection de comics MARVEL en se syn
 * **Importer comics** - *Importe des comics à partir d'un fichier "comics.txt" présent dans le dossier racine. Compatible uniquement avec un fichier généré avec la fonction Exporter Comics du programme*
 * **Exporter comics** - *Exporte vos comics dans un fichier "comics.txt" dans le dossier racine*
 
+##Modules Node JS utilisés
+* **Commander** - *Ajoutez -h avec la commande marvel-collection pour voir les options disponibles*
+* **Inquirer**
+* **sqlite** - *Gestion de la bibliothèque*
+* **superagent** - *Requêtes à l'API MARVEL*
+
 ##Contributeurs
 * **Oscar Grainger** - *oscarvgrainger@gmail.com*
