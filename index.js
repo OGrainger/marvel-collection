@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*A corriger :
-commander
+commander avec sqlite
 */
 const program = require('commander')
 const inquirer = require('inquirer')
@@ -17,10 +17,10 @@ const PRIVATEKEY = 'cb98b834a135073e88b31dcae3ef869edd776c6d'
 
 //Déroulement du programme avec commander
 program
-  .version('0.0.1')
+  .version('0.0.2')
   .option('-a, --add', 'Recherche et ajoute un comic à ma collection')
   .option('-l, --list', 'Montre ma collection')
-  .option('-e, --export','Exporte vos comics')
+  .option('-e, --export', 'Exporte vos comics')
   .option('-i, --import', 'Importe des comics d\'un fichier comics.txt')
 
 // On parse (convertit en format utilisable) les options
@@ -51,6 +51,10 @@ if (program.add) {
 //Fonctions de navigation----------------------------------
 
 function menuPrincipal() {
+  var lines = process.stdout.getWindowSize()[1];
+  for (var i = 0; i < lines; i++) {
+    console.log('\r\n');
+  }
   inquirer.prompt([{
     type: 'list',
     message: 'Bonjour, que voulez-vous faire ?',
@@ -77,6 +81,10 @@ function menuPrincipal() {
 }
 
 function menuMesComics() {
+  var lines = process.stdout.getWindowSize()[1];
+  for (var i = 0; i < lines; i++) {
+    console.log('\r\n');
+  }
   inquirer.prompt([{
     type: 'list',
     name: 'menuMesComics',
@@ -102,6 +110,10 @@ function menuMesComics() {
 }
 
 function menuOutils() {
+  var lines = process.stdout.getWindowSize()[1];
+  for (var i = 0; i < lines; i++) {
+    console.log('\r\n');
+  }
   console.log('Outils utiles pour vos comics. Completez votre collection !')
   inquirer.prompt([{
     type: 'list',
@@ -128,6 +140,10 @@ function menuOutils() {
 }
 
 function menuPropos() {
+  var lines = process.stdout.getWindowSize()[1];
+  for (var i = 0; i < lines; i++) {
+    console.log('\r\n');
+  }
   console.log('Ce programme permet de stocker une bibliothèque de comics MARVEL en se connectant à l\'API en ligne de MARVEL pour recevoir le nom de la série auquelle appartient le comic, ainsi qu\'un petit descriptif du comic. Vous pouvez annoter vos comics, si par exemple vous l\'avez prêté à un ami. Avec ceci s\'ajoute une fonction recherche de comics manquant à une de vos séries, et une fonction d\'import / export de votre bibliothèque, utile si pas exemple vous changez d\'ordinateur.')
   inquirer.prompt([{
     type: 'list',
@@ -149,17 +165,21 @@ function menuPropos() {
 
 //Ajouter un comic dans la db en faisant une cherche dans l'API Marvel à partir du nom
 function ajouterComic() {
+  var lines = process.stdout.getWindowSize()[1];
+  for (var i = 0; i < lines; i++) {
+    console.log('\r\n');
+  }
   inquirer.prompt([{
     type: 'input',
     message: 'Entrez le title de votre comic, nous allons effectuer une recherche.\n La recherche ne prend en compte que le title anglophone. \n',
     name: 'titleStartsWith'
   }]).then((title) => {
     if (title.titleStartsWith == '') {
-        console.log('Vous n\'avez pas rentré de charactère, recherche avec la lettre \"A\" :')
-        title.titleStartsWith = 'a'
+      console.log('Vous n\'avez pas rentré de charactère, recherche avec la lettre \"A\" :')
+      title.titleStartsWith = 'a'
     }
-      //Effectue une recherche dans l'API Marvel, retourne maxi. 20 résultats classés du plus récent au plus vieux
-  return requestRecherche(title)
+    //Effectue une recherche dans l'API Marvel, retourne maxi. 20 résultats classés du plus récent au plus vieux
+    return requestRecherche(title)
 
   }).then((data) => {
     console.log(data.total + ' résultat(s)')
@@ -225,6 +245,10 @@ function ajouterComic() {
 
 //Afficher la liste des comics présents dans la db perso, puis lance DetailsComic
 function VoirComics() {
+  var lines = process.stdout.getWindowSize()[1];
+  for (var i = 0; i < lines; i++) {
+    console.log('\r\n');
+  }
   let listeTitleComics = []
   db.all("SELECT * FROM comics ORDER BY comicTitle ASC")
     .then((comics) => {
@@ -253,6 +277,10 @@ function VoirComics() {
 
 //Voir les détails du comic avec son nom, sa série, une description, la date d'ajout et une annotation
 function DetailsComic(title) {
+  var lines = process.stdout.getWindowSize()[1];
+  for (var i = 0; i < lines; i++) {
+    console.log('\r\n');
+  }
   let listeTitleComics = []
   db.all("SELECT * FROM comics").then((comics) => {
     return new Promise(function(resolve) {
@@ -302,21 +330,21 @@ function DetailsComic(title) {
 //Exporte les comics
 function exportComics() {
   db.all("SELECT * FROM comics")
-  .then((db) => {
-    let ListeQS = []
-    for (i = 0; i < db.length; i++) {
-      ListeQS[i] = qs.stringify(db[i])
-    }
-    // Écrire un fichier
-    try {
-    fs.writeFile('comics.txt', ListeQS, (err) => {
-      if (err) throw err
-      menuOutils()
+    .then((db) => {
+      let ListeQS = []
+      for (i = 0; i < db.length; i++) {
+        ListeQS[i] = qs.stringify(db[i])
+      }
+      // Écrire un fichier
+      try {
+        fs.writeFile('comics.txt', ListeQS, (err) => {
+          if (err) throw err
+          menuOutils()
+        })
+      } catch (err) {
+        console.error('ERREUR : ', err)
+      }
     })
-    } catch (err) {
-      console.error('ERREUR : ', err)
-    }
-  })
 }
 
 //Importe des comics d'un fichier comics.txt (exporté avec la fonction du prog)
@@ -328,14 +356,14 @@ function importComics() {
       data = data.split(",")
       for (i = 0; i < data.length; i++) {
         data[i] = qs.parse(data[i])
-        db.run("INSERT INTO comics VALUES ("+data[i].comicId + ", \"" +data[i].comicTitle + "\", \"" + +data[i].seriesTitle+ "\", \"" +data[i].description+ "\", \"" +data[i].dateAjoute+ "\", \"" +data[i].annotation+"\")")
-        .catch(() => {
-          throw 'fichier corrompu'
+        db.run("INSERT INTO comics VALUES (" + data[i].comicId + ", \"" + data[i].comicTitle + "\", \"" + +data[i].seriesTitle + "\", \"" + data[i].description + "\", \"" + data[i].dateAjoute + "\", \"" + data[i].annotation + "\")")
+          .catch(() => {
+            throw 'fichier corrompu'
           })
-        }
-        menuOutils()
+      }
+      menuOutils()
     })
-  } catch(err) {
+  } catch (err) {
     console.log('ERREUR : ', err)
     menuOutils()
   }
@@ -374,16 +402,16 @@ function requestComic(id) {
 
 function requestSerie(comic) {
   return new Promise(function(resolve, reject) {
-      request
-        .get('http://gateway.marvel.com/v1/public/series?comics=' + comic.comicId + '&orderBy=-title&ts=1&apikey=53b9f342a667913390e93c981a988e91&hash=fdcf2ddc35215ad8cd97d659b769b96a')
-        .end(function(err, res) {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(res.body.data.results[0])
-          }
-        })
+    request
+      .get('http://gateway.marvel.com/v1/public/series?comics=' + comic.comicId + '&orderBy=-title&ts=1&apikey=53b9f342a667913390e93c981a988e91&hash=fdcf2ddc35215ad8cd97d659b769b96a')
+      .end(function(err, res) {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(res.body.data.results[0])
+        }
       })
+  })
 }
 
 function listerResultats(data) {
@@ -432,7 +460,7 @@ function modifierAnnotation(comic) {
         resolve(comic)
       })
     }).then((comic) => {
-        return db.run("UPDATE comics SET annotation = \"" + comic.annotation + "\" WHERE comicId = " + comic.comicId)
+      return db.run("UPDATE comics SET annotation = \"" + comic.annotation + "\" WHERE comicId = " + comic.comicId)
     }).then((comic) => {
       resolve(comic)
     })
@@ -440,37 +468,41 @@ function modifierAnnotation(comic) {
 }
 
 function SupprimerComic(comic) {
-    return new Promise(function(resolve) {
-      inquirer.prompt([{
-        type: 'input',
-        message: 'Confirmez la suppression du comic suivant : \n' + comic.comicTitle + '\nEntrez le mot DELETE pour confirmer',
-        name: 'deleteOrNot'
-      }]).then((res) => {
-        return new Promise(function(resolve) {
-          if (res.deleteOrNot == 'DELETE') {
-            resolve(comic)
-          } else {
-            VoirComics()
-          }
-        })
-      }).then((comic) => {
-          console.log('Le comic '+comic.comicTitle+' a été supprimé.')
-          return db.run("DELETE FROM comics WHERE comicId = " + comic.comicId)
-      }).then((comic) => {
-        resolve(comic)
+  return new Promise(function(resolve) {
+    inquirer.prompt([{
+      type: 'input',
+      message: 'Confirmez la suppression du comic suivant : \n' + comic.comicTitle + '\nEntrez le mot DELETE pour confirmer',
+      name: 'deleteOrNot'
+    }]).then((res) => {
+      return new Promise(function(resolve) {
+        if (res.deleteOrNot == 'DELETE') {
+          resolve(comic)
+        } else {
+          VoirComics()
+        }
       })
+    }).then((comic) => {
+      console.log('Le comic ' + comic.comicTitle + ' a été supprimé.')
+      return db.run("DELETE FROM comics WHERE comicId = " + comic.comicId)
+    }).then((comic) => {
+      resolve(comic)
     })
+  })
 }
 
 function ComicsManquant(comic) {
+  var lines = process.stdout.getWindowSize()[1];
+  for (var i = 0; i < lines; i++) {
+    console.log('\r\n');
+  }
   requestSerie(comic)
-  .then((res) => {
-        return new Promise(function(resolve) {
-          let comicsManquant = [comic.seriesTitle, []]
-          for (i = 0; i < res.comics.returned; i++) {
-            comicsManquant[1].push(res.comics.items[i].name)
-          }
-          db.all("SELECT comicTitle, seriesTitle FROM comics WHERE seriesTitle = \""+comicsManquant[0]+"\"")
+    .then((res) => {
+      return new Promise(function(resolve) {
+        let comicsManquant = [comic.seriesTitle, []]
+        for (i = 0; i < res.comics.returned; i++) {
+          comicsManquant[1].push(res.comics.items[i].name)
+        }
+        db.all("SELECT comicTitle, seriesTitle FROM comics WHERE seriesTitle = \"" + comicsManquant[0] + "\"")
           .then((res) => {
             comicsManquant[2] = res
             resolve(comicsManquant)
