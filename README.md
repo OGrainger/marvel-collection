@@ -1,26 +1,32 @@
-#Marvel Collection
-##Résumé
+# Marvel Collection
+
+## Résumé
+
 Ce programme permet de gérer votre propre collection de comics MARVEL en se synchronisant avec l'API MARVEL en ligne
 
-##Fonctions disponibles
-* **Ajouter un comic** - *Recherche un comic dans l'API pour l'ajouter à la bibliothèque personnelle*
-* **Voir les comics** - *Affiche les comics de votre bibliothèque personnelle*
-* **Comics manquants** - *Recherche les comics manquants à la série du comic sélectionné*
-* **Importer comics** - *Importe des comics à partir d'un fichier "comics.txt" présent dans le dossier racine. Compatible uniquement avec un fichier généré avec la fonction Exporter Comics du programme*
-* **Exporter comics** - *Exporte vos comics dans un fichier "comics.txt" dans le dossier racine*
+## Fonctions disponibles
 
-##Modules Node JS utilisés
-* **Commander** - *Ajoutez -h avec la commande marvel-collection pour voir les options disponibles*
-* **Inquirer**
-* **sqlite** - *Gestion de la bibliothèque*
-* **superagent** - *Requêtes à l'API MARVEL*
+- **Ajouter un comic** - _Recherche un comic dans l'API pour l'ajouter à la bibliothèque personnelle_
+- **Voir les comics** - _Affiche les comics de votre bibliothèque personnelle_
+- **Comics manquants** - _Recherche les comics manquants à la série du comic sélectionné_
+- **Importer comics** - _Importe des comics à partir d'un fichier "comics.txt" présent dans le dossier racine. Compatible uniquement avec un fichier généré avec la fonction Exporter Comics du programme_
+- **Exporter comics** - _Exporte vos comics dans un fichier "comics.txt" dans le dossier racine_
 
-##Contributeurs
-* **Oscar Grainger** - *oscarvgrainger@gmail.com*
+## Modules Node JS utilisés
 
-##Bugs connus
--Lors de l'ajout d'un comic, si le champ reste vide -> crash de l'app (contourné par faire une recherche de comics commençant par "A")
+- **Commander** - _Ajoutez -h avec la commande marvel-collection pour voir les options disponibles_
+- **Inquirer**
+- **sqlite** - _Gestion de la bibliothèque_
+- **superagent** - _Requêtes à l'API MARVEL_
 
--N'arrive pas à trouver la db lors des commandes -l, -e, et -i de commander
+## Contributeurs
 
--Globalement une mauvaise gestion en cas d'erreur (ex: requête URL qui ne donne rien) (renvoie l'erreur et quitte l'app au lieu de revenir dans un menu)
+- **Oscar Grainger** - _oscarvgrainger@gmail.com_
+
+## Bugs connus
+
+-Lors de l'ajout d'un comic, si le champ reste vide, l'app crash (contourné par la réalisation d'une recherche de comics commençant par "A")
+
+## Dernière mise à jour
+
+Correction de nombreux bugs

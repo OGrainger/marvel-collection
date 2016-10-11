@@ -1,25 +1,25 @@
 {
-  "name": "marvel-collection",
-  "version": "0.0.4",
-  "description": "Gérez votre propre bibliothèque de comics MARVEL synchronisé avec la base de données de MARVEL en ligne !",
-  "main": "index.js",
-  "scripts": {
-    "test": "node index.js"
-  },
-  "bin": {
-    "marvel-collection": "./index.js"
-  },
-  "keywords": [
-    "marvel",
-    "collection",
-    "bibliotheque"
-  ],
-  "author": "Oscar Grainger <oscarvgrainger@gmail.com>",
-  "license": "ISC",
-  "dependencies": {
-    "commander": "^2.9.0",
-    "inquirer": "^1.2.1",
-    "sqlite": "^2.2.0",
-    "superagent": "^2.3.0"
-  }
+    "name": "marvel-collection",
+    "version": "0.4.2",
+    "description": "Gérez votre propre bibliothèque de comics MARVEL synchronisé avec la base de données de MARVEL en ligne !",
+    "main": "index.js",
+    "scripts": {
+        "test": "node index.js"
+    },
+    "bin": {
+        "marvel-collection": "./index.js"
+    },
+    "keywords": [
+        "marvel",
+        "collection",
+        "bibliotheque"
+    ],
+    "author": "Oscar Grainger <oscarvgrainger@gmail.com>",
+    "license": "ISC",
+    "dependencies": {
+        "commander": "^2.9.0",
+        "inquirer": "^1.2.1",
+        "sqlite": "^2.2.0",
+        "superagent": "^2.3.0"
+    }
 }
