@@ -14,7 +14,7 @@ const PRIVATEKEY = 'cb98b834a135073e88b31dcae3ef869edd776c6d'
 
 //Déroulement du programme avec commander
 program
-  .version('0.4.2')
+  .version('0.4.4')
   .option('-a, --add', 'Recherche et ajoute un comic à ma collection')
   .option('-l, --list', 'Montre ma collection')
   .option('-e, --export', 'Exporte vos comics')
@@ -56,7 +56,7 @@ function menuPrincipal() {
     console.log('\r\n')
   }
   console.log("--MARVEL© COLLECTION--\n")
-  //fin de l'astuce
+    //fin de l'astuce
   inquirer.prompt([{
     type: 'list',
     message: 'Bonjour, que voulez-vous faire ?',
@@ -169,7 +169,8 @@ function menuPropos() {
 }
 
 //Ajouter un comic dans la db en faisant une cherche dans l'API Marvel à partir du nom
-function ajouterComic() {  var lines = process.stdout.getWindowSize()[1];
+function ajouterComic() {
+  var lines = process.stdout.getWindowSize()[1];
   for (var i = 0; i < lines; i++) {
     console.log('\r\n');
   }
@@ -241,7 +242,7 @@ function ajouterComic() {  var lines = process.stdout.getWindowSize()[1];
     })
   }).then((comic) => {
     //Ajoute (enfin!) le comic à la db personnelle
-    return db.run("INSERT INTO comics VALUES (" + comic[0] + ", \"" + comic[1] + "\", \"" + comic[2] + "\", \"" + comic[3] + "\", \"" + comic[4] + "\", \"" + comic[5] + "\")")
+    return db.run("INSERT INTO comics VALUES (" + comic[0] + ", \"" + comic[1] + "\", \"" + comic[2] + "\", \"" + comic[3].replace(/\"/g, "''") + "\", \"" + comic[4] + "\", \"" + comic[5] + "\")")
     console.log("Le comic suivant a été ajouté à votre collection :\n" + comic[1])
   }).then(() => {
     menuMesComics()

@@ -27,6 +27,6 @@ Ce programme permet de gérer votre propre collection de comics MARVEL en se syn
 
 -Lors de l'ajout d'un comic, si le champ reste vide, l'app crash (contourné par la réalisation d'une recherche de comics commençant par "A")
 
-## Dernière mise à jour
+## Dernière mise à jour (4.4)
 
 Correction de nombreux bugs
